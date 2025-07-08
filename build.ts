@@ -13,7 +13,20 @@ const commands = [
         )
         .addStringOption((opt) =>
             opt.setName("tagLine").setDescription("태그 (# 뒷부분)").setRequired(true)
-        )
+        ),
 ];
 
-const rest = new REST({ version: "10" }).setToken(process.env.API_KEY!)
+const rest = new REST({ version: "10" }).setToken(process.env.API_KEY!);
+
+async () => {
+    try {
+        console.log("adding slash command");
+        await rest.put(
+            Routes.applicationGuildCommands(process.env.CI_KEY!, process.env.GI_KEY!),
+            { body: commands }
+        );
+        console.log("success");
+    } catch (err) {
+        console.error(err);
+    }
+};
