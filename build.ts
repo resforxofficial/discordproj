@@ -1,24 +1,23 @@
 import { REST, Routes, SlashCommandBuilder } from "discord.js";
 import dotenv from "dotenv";
-import path from "path";
 
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+dotenv.config();
 
 const commands = [
     new SlashCommandBuilder()
-        .setName("riot-lol")
+        .setName("riot")
         .setDescription("hand-made opgg in discord (sorry for bad description)")
         .addStringOption((opt) =>
-            opt.setName("gameName").setDescription("게임이름").setRequired(true)
+            opt.setName("game-name").setDescription("게임이름").setRequired(true)
         )
         .addStringOption((opt) =>
-            opt.setName("tagLine").setDescription("태그 (# 뒷부분)").setRequired(true)
+            opt.setName("tag-line").setDescription("태그 (# 뒷부분)").setRequired(true)
         ),
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.API_KEY!);
 
-async () => {
+(async () => {
     try {
         console.log("adding slash command");
         await rest.put(
@@ -29,4 +28,4 @@ async () => {
     } catch (err) {
         console.error(err);
     }
-};
+})();

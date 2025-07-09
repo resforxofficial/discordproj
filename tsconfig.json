@@ -17,8 +17,5 @@
         "exactOptionalPropertyTypes": true,
         "importsNotUsedAsValues": "remove",
         "noEmit": true
-    },
-    "include": [
-        "src"
-    ]
+    }
 }

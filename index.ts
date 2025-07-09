@@ -8,7 +8,6 @@ import {
     ActionRowBuilder,
     TextChannel
 } from "discord.js";
-import path from 'path';
 import dotenv from "dotenv";
 import axios from 'axios';
 
@@ -21,8 +20,23 @@ const client = new Client({
     ]
 });
 
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+dotenv.config();
 
 client.once(Events.ClientReady, (rc) => {
     console.log(rc.user.tag);
 });
+
+client.on(Events.InteractionCreate, async (itr) => {
+    if (!itr.isChatInputCommand()) return;
+
+    if (itr.commandName === "riot") {
+        const gameName = itr.options.getString("game-name", true);
+        const tagLine = itr.options.getString("tag-line", true);
+
+        await itr.reply({
+            content: `${gameName} ${tagLine}`,
+        })
+    }
+});
+
+client.login(process.env.API_KEY);
