@@ -6,10 +6,10 @@ import {
     ButtonBuilder,
     ButtonStyle,
     ActionRowBuilder,
-    TextChannel
+    TextChannel,
 } from "discord.js";
 import dotenv from "dotenv";
-import axios from 'axios';
+import axios from "axios";
 
 const client = new Client({
     intents: [
@@ -17,7 +17,7 @@ const client = new Client({
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-    ]
+    ],
 });
 
 dotenv.config();
@@ -33,9 +33,14 @@ client.on(Events.InteractionCreate, async (itr) => {
         const gameName = itr.options.getString("game-name", true);
         const tagLine = itr.options.getString("tag-line", true);
 
-        await itr.reply({
-            content: `${gameName} ${tagLine}`,
-        })
+        try {
+            const response = await axios.post("http://localhost:5050/riot", {
+                message: [gameName, tagLine],
+            });
+        } catch (err) {
+            console.error("에러 발생:", err);
+            await itr.reply("⚠️ 서버 요청 중 에러 발생!");
+        }
     }
 });
 
