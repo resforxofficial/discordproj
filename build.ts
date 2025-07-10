@@ -13,6 +13,11 @@ const commands = [
         .addStringOption((opt) =>
             opt.setName("tag-line").setDescription("태그 (# 뒷부분)").setRequired(true)
         ),
+
+    new SlashCommandBuilder()
+        .setName("see")
+        .setDescription("some kind of")
+        .addIntegerOption((opt) => opt.setName("want-number").setDescription("뽑아올개수").setRequired(true)),
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.API_KEY!);
